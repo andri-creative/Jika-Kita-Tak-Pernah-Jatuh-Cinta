@@ -1,0 +1,1978 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="Jika Kita Tak Pernah Jatuh Cinta – Alvi Syahrin. Pengalaman visual &amp; mini-game interaktif berbasis novel best seller."
+    />
+    <title>Jika Kita Tak Pernah Jatuh Cinta – Alvi Syahrin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- Background Canvas Animasi Partikel & Suasana -->
+    <canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+    <!-- Progress Bar Garis Atas -->
+    <div class="progress-bar-wrap" aria-hidden="true">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- HUD Navigasi Bawah -->
+    <nav class="hud-nav" id="hudNav">
+      <button
+        class="hud-btn"
+        id="prevBtn"
+        aria-label="Halaman sebelumnya"
+        title="Halaman sebelumnya"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+        >
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <button
+        class="hud-counter"
+        id="tocToggle"
+        aria-label="Buka daftar isi"
+        title="Daftar Isi"
+      >
+        <span class="hud-page-label">Lembaran</span>
+        <span id="currentScene">1</span><span class="hud-sep">/</span
+        ><span>36</span>
+      </button>
+      <button
+        class="hud-btn"
+        id="nextBtn"
+        aria-label="Halaman berikutnya"
+        title="Halaman berikutnya"
+        disabled
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+        >
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Toast Pesan Interaksi -->
+    <div class="toast-box" id="toastBox" role="status" aria-live="polite"></div>
+
+    <!-- Modal Daftar Isi (TOC) -->
+    <div class="toc-overlay" id="tocOverlay" aria-hidden="true">
+      <div class="toc-modal">
+        <button class="toc-close" id="tocClose" aria-label="Tutup daftar isi">
+          ✕
+        </button>
+        <h2 class="toc-title">Daftar Lembaran Hati</h2>
+        <p class="toc-subtitle">
+          Jika Kita Tak Pernah Jatuh Cinta – Alvi Syahrin
+        </p>
+        <div class="toc-grid" id="tocGrid">
+          <!-- Akan di-generate via JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Kontainer Utama Semua Adegan -->
+    <main class="scenes-wrapper" id="scenesWrapper">
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 0: COVER & PROLOGUE PEMBUKA (INTERAKTIF)
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene active"
+        data-scene="0"
+        data-bg="#1a0b1e"
+        data-accent="#ff6b9d"
+      >
+        <div class="scene-layout cover-layout">
+          <div class="visual-stage cover-visual-stage">
+            <div class="cover-book-wrap" id="coverBook">
+              <div class="cover-glow"></div>
+              <div class="cover-book-card">
+                <div class="cover-bookmark"></div>
+                <div class="cover-emblem">📖</div>
+                <h1 class="cover-main-title">
+                  Jika Kita Tak Pernah<br /><span>Jatuh Cinta</span>
+                </h1>
+                <p class="cover-author-tag">Karya Alvi Syahrin</p>
+                <div
+                  class="cover-seal-btn"
+                  id="coverSeal"
+                  role="button"
+                  tabindex="0"
+                  title="Klik untuk membuka segel buku"
+                >
+                  <span class="seal-icon" id="sealIcon">🔒</span>
+                  <span class="seal-text" id="sealText">Ketuk Segel Lilin</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-stage cover-text-stage">
+            <div class="scene-card cover-intro-card">
+              <span class="intro-pill">✨ Sambutan Perjalanan</span>
+              <h2 class="intro-heading">
+                Selamat Datang di Lembaran Perjalanan Hati
+              </h2>
+              <blockquote class="quote-text cover-quote">
+                "Untuk setiap hati yang pernah terluka, yang bertanya-tanya
+                mengapa cinta begitu rumit, dan yang sedang belajar menemukan
+                kedamaian dalam dirinya sendiri."
+              </blockquote>
+              <p class="game-instruction">
+                Sentuh segel lilin pada buku untuk membuka halaman pertama.
+              </p>
+              <p class="game-status" id="st-0">Segel masih terkunci 🔒</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-0"
+                type="button"
+              >
+                Buka Lembaran Pertama →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 1: MENJAGA HATI SEBELUM BERTEMU (BAB 1)
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="1"
+        data-bg="#1f0f24" data-accent="#ff8fab"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="doors-game-wrap" id="doorsWrap">
+              <div class="door-item door-wrong" data-door="1">
+                <span class="door-num">Pintu 1</span>
+                <span class="door-status">Redup</span>
+              </div>
+              <div class="door-item door-wrong" data-door="2">
+                <span class="door-num">Pintu 2</span>
+                <span class="door-status">Kusam</span>
+              </div>
+              <div
+                class="door-item door-right"
+                id="goldenDoor"
+                data-door="right"
+              >
+                <div class="door-light-beam" id="doorLightBeam"></div>
+                <span class="door-num">Pintu Kayu Hangat</span>
+                <span class="door-status" id="goldenDoorStatus">Ketuk 3x</span>
+                <div class="door-knob"></div>
+              </div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Menjaga Hati Sebelum Bertemu</h2>
+              <blockquote class="quote-text">
+                "Jangan biarkan hatimu lelah karena terlalu sering singgah di
+                hati yang salah. Simpan sisa rasa terbaikmu untuk seseorang yang
+                datang membawa kepastian, bukan sekadar teka-teki."
+              </blockquote>
+              <p class="game-instruction">
+                Ketuk pintu kayu hangat sebanyak 3 kali untuk membuka pintu
+                kepastian.
+              </p>
+              <p class="game-status" id="st-1">Ketukan: 0 / 3</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-1"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 2: PERASAAN BERTEPUK SEBELAH TANGAN
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="2"
+        data-bg="#241028" data-accent="#ff6b9d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="bubble-game-stage" id="bubbleGameStage">
+              <div class="clock-bg-visual">
+                <div class="mini-clock-face">
+                  <div class="mini-hand hour-hand"></div>
+                  <div class="mini-hand min-hand"></div>
+                </div>
+              </div>
+              <div class="float-bubbles-wrap" id="floatBubblesWrap">
+                <button class="chat-bubble-pop" data-bubble="1" type="button">
+                  💬 "Kamu lagi sibuk ya?" <span>Pecahkan</span>
+                </button>
+                <button class="chat-bubble-pop" data-bubble="2" type="button">
+                  💔 "Jangan lupa makan ya..." <span>Pecahkan</span>
+                </button>
+                <button class="chat-bubble-pop" data-bubble="3" type="button">
+                  ⏳ "Semoga harimu menyenangkan" <span>Pecahkan</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Perasaan yang Bertepuk Sebelah Tangan</h2>
+              <blockquote class="quote-text">
+                "Kadang, kita begitu gigih memperjuangkan seseorang yang bahkan
+                tidak pernah melirik ke arah kita. Padahal, lelah itu nyata, dan
+                air mata itu berharga."
+              </blockquote>
+              <p class="game-instruction">
+                Pecahkan 3 gelembung pesan yang tak kunjung dibalas itu agar
+                hatimu tenang.
+              </p>
+              <p class="game-status" id="st-2">Gelembung pecah: 0 / 3</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-2"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 3: DUNIA MAYA VS NYATA
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="3"
+        data-bg="#1c0e22" data-accent="#ff9ec4"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="reality-game-wrap" id="realityWrap">
+              <div class="phone-frame-mock" id="phoneMock">
+                <div class="mock-screen" id="mockScreen">
+                  <div class="mock-chat-online" id="mockChatOnline">
+                    <span class="mock-heart-glow">💖</span>
+                    <p class="mock-msg">"Aku selalu ada buat kamu..."</p>
+                    <span class="mock-tag">Manis di Layar Ponsel</span>
+                  </div>
+                  <div
+                    class="mock-reality-offline hidden"
+                    id="mockRealityOffline"
+                  >
+                    <span class="mock-cloud-icon">🌧️</span>
+                    <p class="mock-msg">
+                      Berpapasan dingin tanpa sepatah kata.
+                    </p>
+                    <span class="mock-tag">Kenyataan di Dunia Nyata</span>
+                  </div>
+                </div>
+              </div>
+              <div class="slider-control-box">
+                <label for="realitySlider" class="ctrl-sublabel"
+                  >Geser untuk mengungkap realita</label
+                >
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="0"
+                  id="realitySlider"
+                  class="game-slider"
+                />
+                <div class="slider-endpoints">
+                  <span>Dunia Maya 📱</span>
+                  <span>Dunia Nyata 🚶‍♂️</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Realitas Cinta di Dunia Maya vs Nyata</h2>
+              <blockquote class="quote-text">
+                "Jangan terbuai dengan manisnya kata-kata di layar ponsel. Sebab
+                terkadang, seseorang bisa menjadi sangat romantis di chat, tapi
+                begitu dingin dan asing di dunia nyata."
+              </blockquote>
+              <p class="game-instruction">
+                Geser slider ke arah Dunia Nyata (100%) untuk melihat kebenaran.
+              </p>
+              <p class="game-status" id="st-3">Posisi: 0% (Dunia Maya)</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-3"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 4: RASA INSECURE & STANDAR KECANTIKAN
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="4"
+        data-bg="#1a0e1c" data-accent="#e8998d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="mirror-box">
+              <div class="mirror-frame">
+                <div class="mirror-progress-ring" id="mirrorProgressRing"></div>
+                <div class="mirror-clean-badge" id="mirrorCleanBadge">0%</div>
+                <div class="mirror-oval" id="mirrorOval">
+                  <canvas
+                    class="mirror-fog-canvas"
+                    id="mirrorCanvas"
+                    width="260"
+                    height="340"
+                  ></canvas>
+                  <div class="mirror-under-content" id="mirrorUnderContent">
+                    <span class="mirror-smile-face">😊</span>
+                    <p class="mirror-self-text">Kamu berharga apa adanya</p>
+                    <span class="sparkle-gold">✨</span>
+                  </div>
+                </div>
+              </div>
+              <button class="btn-quick-wipe" id="btnQuickWipe" type="button">
+                🧹 Usap Cermin Seketika
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Rasa Insecure dan Standar Kecantikan</h2>
+              <blockquote class="quote-text">
+                "Kamu tidak perlu mengubah dirimu hanya agar disukai orang lain.
+                Seseorang yang tepat akan mencintai kekuranganmu, bukan
+                menuntutmu menjadi orang lain."
+              </blockquote>
+              <p class="game-instruction">
+                Usap cermin yang berkabut menggunakan kursor atau sentuhan jari
+                hingga bersih.
+              </p>
+              <p class="game-status" id="st-4">Kebersihan cermin: 0%</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-4"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 5: MENCINTAI DALAM DIAM
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="5"
+        data-bg="#221026" data-accent="#ff7eb6"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="parchment-stage" id="parchmentStage">
+              <div class="parchment-paper" id="parchmentPaper">
+                <div class="parchment-line" id="line1">__________</div>
+                <div class="parchment-line" id="line2">__________</div>
+                <div class="parchment-line" id="line3">__________</div>
+                <div class="parchment-line" id="line4">__________</div>
+              </div>
+              <button class="btn-quill" id="btnQuill" type="button">
+                🖋️ Goreskan Pena Tinta
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Mencintai dalam Diam</h2>
+              <blockquote class="quote-text">
+                "Mencintai dalam diam itu melelahkan. Kamu ingin menyapa, tapi
+                takut lancang. Kamu ingin melupakan, tapi bayangnya selalu
+                datang."
+              </blockquote>
+              <p class="game-instruction">
+                Tekan pena tinta 4 kali untuk menuangkan isi hatimu ke lembaran
+                kertas.
+              </p>
+              <p class="game-status" id="st-5">Goresan tinta: 0 / 4 baris</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-5"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 6: TERJEBAK DALAM FRIENDZONE (BAB 2)
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="6"
+        data-bg="#1d0f20" data-accent="#ff6b9d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="cups-game-wrap" id="cupsWrap">
+              <div class="coffee-cup cup-one">
+                <span class="cup-steam">♨️</span>
+                <div class="cup-body">☕ Hati Kamu</div>
+              </div>
+              <button
+                class="glass-barrier-btn"
+                id="glassBarrier"
+                type="button"
+                title="Ketuk untuk meruntuhkan batas semu"
+              >
+                <span class="barrier-text">Garis Batas Tak Kasat Mata</span>
+                <span class="barrier-action">Ketuk untuk Robohkan 🔨</span>
+              </button>
+              <div class="coffee-cup cup-two">
+                <span class="cup-steam">♨️</span>
+                <div class="cup-body">☕ Pilihan Hatinya</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Terjebak dalam Friendzone</h2>
+              <blockquote class="quote-text">
+                "Paling menyedihkan adalah ketika kamu berada di posisi paling
+                dekat dengannya, tapi sadar bahwa kamu tidak akan pernah menjadi
+                pilihan hatinya."
+              </blockquote>
+              <p class="game-instruction">
+                Ketuk garis batas semu di tengah untuk menerima kenyataan dengan
+                lapang dada.
+              </p>
+              <p class="game-status" id="st-6">
+                Status: Batas masih menghalangi
+              </p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-6"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 7: DATANG SAAT KESEPIAN
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="7"
+        data-bg="#201124" data-accent="#ff8fab"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="lantern-game-stage">
+              <div class="room-dark-side" id="darkRoom">
+                <div
+                  class="desk-lantern"
+                  id="deskLantern"
+                  role="button"
+                  tabindex="0"
+                >
+                  <span class="lantern-icon">🏮</span>
+                  <span class="lantern-flame" id="lanternFlame">🔥</span>
+                </div>
+                <p class="room-tag">Ruang Tenangmu</p>
+              </div>
+              <div class="party-flash-side" id="partyFlash">
+                <span class="party-disco">🎉</span>
+                <p class="party-tag">Dunia Luarnya yang Ramai</p>
+              </div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Datang Hanya Saat Kesepian</h2>
+              <blockquote class="quote-text">
+                "Jangan mau dijadikan tempat pelampiasan saat dia kesepian, lalu
+                ditinggal begitu saja saat dunianya sudah kembali ramai."
+              </blockquote>
+              <p class="game-instruction">
+                Ketuk lentera mejamu untuk menyalakan cahaya kemandirian yang
+                tak lagi bergantung padanya.
+              </p>
+              <p class="game-status" id="st-7">Lentera masih redup</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-7"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 8: GHOSTING – TANPA KEJELASAN
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="8"
+        data-bg="#1b0d1f" data-accent="#e8998d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="ghosting-wrap">
+              <div class="chat-freeze-box" id="chatFreezeBox">
+                <div class="freeze-bubble">"Semoga harimu selalu baik..."</div>
+                <div class="freeze-meta">
+                  Centang dua abu-abu · Tak berbalas 💬
+                </div>
+              </div>
+              <button class="btn-ikhlas" id="btnIkhlas" type="button">
+                🕊️ Ikhlaskan &amp; Tutup Layar
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">
+                Mengikhlaskan yang Pergi Tanpa Kejelasan
+              </h2>
+              <blockquote class="quote-text">
+                "Tidak mendapat jawaban adalah sebuah jawaban. Jika dia pergi
+                tanpa alasan, itu tanda kamu tidak perlu mencarinya lagi."
+              </blockquote>
+              <p class="game-instruction">
+                Ketuk tombol "Ikhlaskan" untuk melarutkan pesan yang membeku
+                menjadi kelegaan.
+              </p>
+              <p class="game-status" id="st-8">Menunggu keikhlasanmu...</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-8"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 9: PATAH HATI MENDEWASAKAN
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="9"
+        data-bg="#231325" data-accent="#ff9ec4"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="water-pool-stage" id="waterPool">
+              <div class="teardrop-anim" id="teardropAnim">💧</div>
+              <div class="ripple-wave" id="rippleWave"></div>
+              <div class="lotus-flower" id="lotusFlower">🪷</div>
+              <p class="pool-hint">
+                Ketuk permukaan air untuk meneteskan air mata
+              </p>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">
+                Patah Hati yang Menjadikan Lebih Dewasa
+              </h2>
+              <blockquote class="quote-text">
+                "Patah hati memang mengajarkan air mata, tapi dari sana kamu
+                belajar tentang arti ketulusan dan bagaimana cara memilih yang
+                benar."
+              </blockquote>
+              <p class="game-instruction">
+                Sentuh kolam air untuk menumbuhkan bunga teratai dari tetesan
+                air mata.
+              </p>
+              <p class="game-status" id="st-9">Air masih tenang</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-9"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 10: SELF-WORTH (HARGA DIRI)
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="10"
+        data-bg="#1a0e20" data-accent="#ff6b9d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="diamond-crystal-stage">
+              <div
+                class="gem-transform-box"
+                id="gemBox"
+                role="button"
+                tabindex="0"
+              >
+                <span class="raw-tear" id="rawTear">💧</span>
+                <span class="pure-diamond hidden" id="pureDiamond">💎</span>
+              </div>
+              <button class="btn-polish-gem" id="btnPolishGem" type="button">
+                ✨ Gosok Air Mata Menjadi Berlian
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Menghargai Diri Sendiri (Self-Worth)</h2>
+              <blockquote class="quote-text">
+                "Harga dirimu jauh lebih mahal daripada air mata yang kamu
+                keluarkan untuk seseorang yang bahkan tidak peduli."
+              </blockquote>
+              <p class="game-instruction">
+                Gosok air mata sebanyak 3 kali hingga ia mengkristal menjadi
+                berlian berkilau.
+              </p>
+              <p class="game-status" id="st-10">Kilauan: 0 / 3</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-10"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 11: BEDA PRINSIP (BAB 3)
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="11"
+        data-bg="#1e1024" data-accent="#c5a3ff"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="fork-paths-stage">
+              <div
+                class="path-card path-left"
+                id="pathLeft"
+                role="button"
+                tabindex="0"
+              >
+                <span class="path-icon">🌄</span>
+                <h3>Jalan Pilihan Hatimu</h3>
+                <p>Membawa damai &amp; prinsip yang terjaga</p>
+              </div>
+              <div class="path-divider">VS</div>
+              <div
+                class="path-card path-right"
+                id="pathRight"
+                role="button"
+                tabindex="0"
+              >
+                <span class="path-icon">🌫️</span>
+                <h3>Jalan yang Memaksa</h3>
+                <p>Hanya berujung lelah &amp; keraguan</p>
+              </div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Hubungan Beda Prinsip &amp; Arah</h2>
+              <blockquote class="quote-text">
+                "Cinta saja tidak pernah cukup. Jika arah tujuan kita sudah
+                berbeda sejak awal, memaksakan jalan bersama hanya akan berujung
+                lelah."
+              </blockquote>
+              <p class="game-instruction">
+                Pilih dan ketuk "Jalan Pilihan Hatimu" untuk melangkah mantap ke
+                depan.
+              </p>
+              <p class="game-status" id="st-11">Pilih arah langkahmu</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-11"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 12: RESTU ORANG TUA
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="12"
+        data-bg="#211226" data-accent="#ff8fab"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="compass-game-box">
+              <div class="compass-outer-ring">
+                <div class="compass-tick-ring">
+                  <span class="compass-tick" style="--tick-angle: 0deg"></span>
+                  <span class="compass-tick" style="--tick-angle: 30deg"></span>
+                  <span class="compass-tick" style="--tick-angle: 60deg"></span>
+                  <span class="compass-tick" style="--tick-angle: 90deg"></span>
+                  <span
+                    class="compass-tick"
+                    style="--tick-angle: 120deg"
+                  ></span>
+                  <span
+                    class="compass-tick"
+                    style="--tick-angle: 150deg"
+                  ></span>
+                  <span
+                    class="compass-tick"
+                    style="--tick-angle: 180deg"
+                  ></span>
+                  <span
+                    class="compass-tick"
+                    style="--tick-angle: 210deg"
+                  ></span>
+                  <span
+                    class="compass-tick"
+                    style="--tick-angle: 240deg"
+                  ></span>
+                  <span
+                    class="compass-tick"
+                    style="--tick-angle: 270deg"
+                  ></span>
+                  <span
+                    class="compass-tick"
+                    style="--tick-angle: 300deg"
+                  ></span>
+                  <span
+                    class="compass-tick"
+                    style="--tick-angle: 330deg"
+                  ></span>
+                </div>
+                <div class="compass-dial" id="compassDial">
+                  <div class="compass-center-dot"></div>
+                  <div class="compass-needle" id="compassNeedlePin">
+                    <div class="needle-north"></div>
+                    <div class="needle-south"></div>
+                  </div>
+                  <span class="dir-tag n">⚡ Badai</span>
+                  <span class="dir-tag e">🌫️ Ragu</span>
+                  <span class="dir-tag s">🥀 Sesal</span>
+                  <span class="dir-tag w safe-dir">🏡 Rumah</span>
+                </div>
+              </div>
+              <div class="compass-label">🧭 Kompas Restu</div>
+              <button
+                class="btn-spin-compass"
+                id="btnSpinCompass"
+                type="button"
+              >
+                ✨ Putar Kompas
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Merelakan Restu Orang Tua</h2>
+              <blockquote class="quote-text">
+                "Restu orang tua adalah kompas terbaik. Jika mereka melihat ada
+                badai di balik senyum seseorang yang kamu pilih, percayalah,
+                mereka benar."
+              </blockquote>
+              <p class="game-instruction">
+                Putar kompas restu hingga jarumnya menunjuk tepat ke Rumah
+                Hangat.
+              </p>
+              <p class="game-status" id="st-12">
+                Jarum kompas masih berputar gelisah
+              </p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-12"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 13: WAKTU TERBAIK
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="13"
+        data-bg="#1c0f22" data-accent="#ff9ec4"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="bloom-timing-stage">
+              <div class="flower-pot">
+                <span class="sun-orb" id="sunOrb">☀️</span>
+                <div class="rose-bud" id="roseBud">🌱</div>
+                <p class="bud-state" id="budState">
+                  Kuncup masih menunggu matahari
+                </p>
+              </div>
+              <button class="btn-bring-dawn" id="btnBringDawn" type="button">
+                🌅 Terbitkan Fajar Semesta
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Waktu Terbaik untuk Jatuh Cinta</h2>
+              <blockquote class="quote-text">
+                "Cinta yang datang di waktu yang salah hanya akan mendatangkan
+                luka. Tunggulah hingga semesta mempertemukanmu di waktu yang
+                tepat."
+              </blockquote>
+              <p class="game-instruction">
+                Terbitkan fajar matahari agar kuncup mawar merekah sempurna pada
+                waktunya.
+              </p>
+              <p class="game-status" id="st-13">Menanti waktu terbaik...</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-13"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 14: BAHAGIA MANDIRI
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="14"
+        data-bg="#1f0e22" data-accent="#ff6b9d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="cafe-window-stage">
+              <div
+                class="steaming-cup"
+                id="hotChocoCup"
+                role="button"
+                tabindex="0"
+              >
+                <span class="hot-steam">♨️</span>
+                <div class="choco-mug">☕ Cokelat Hangat</div>
+                <span class="sip-tag">Sentuh untuk menyesap</span>
+              </div>
+              <div class="book-companion">📖 Buku Favorit</div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Bahagia Tanpa Bergantung</h2>
+              <blockquote class="quote-text">
+                "Kebahagiaanmu tidak ditentukan oleh status 'taken' atau
+                'single'. Bahagia itu diciptakan oleh dirimu sendiri, bukan
+                dipinjam dari orang lain."
+              </blockquote>
+              <p class="game-instruction">
+                Sesap cangkir cokelat hangatmu dan nikmati ketenangan bersahabat
+                dengan dirimu sendiri.
+              </p>
+              <p class="game-status" id="st-14">
+                Cangkir masih mengepul hangat
+              </p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-14"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 15: KENANGAN MASA LALU
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="15"
+        data-bg="#241125" data-accent="#e8998d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="memory-chest-stage">
+              <div class="chest-box" id="chestBox">
+                <div class="chest-lid" id="chestLid">📦 Tutup Kotak</div>
+                <div class="polaroid-photos" id="polaroidPhotos">
+                  📷 Foto Kenangan Tersimpan
+                </div>
+              </div>
+              <button class="btn-lock-chest" id="btnLockChest" type="button">
+                🔒 Kunci &amp; Simpan Rapi Kenangan
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">
+                Kenangan Masa Lalu yang Sulit Dilupakan
+              </h2>
+              <blockquote class="quote-text">
+                "Masa lalu itu untuk dikenang sebagai pelajaran, bukan untuk
+                dijadikan alasan menolak kebahagiaan baru yang datang."
+              </blockquote>
+              <p class="game-instruction">
+                Tutup kotak kayu kenangan dan simpan rapi di dalam hatimu.
+              </p>
+              <p class="game-status" id="st-15">Kotak masih terbuka</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-15"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 16: MEMAAFKAN (BAB 4)
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="16"
+        data-bg="#1d0f20" data-accent="#ff7eb6"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="burden-drop-stage">
+              <div class="heavy-backpack" id="heavyBackpack">
+                <span class="backpack-icon">🎒</span>
+                <p class="backpack-label">Beban Dendam &amp; Amarah</p>
+              </div>
+              <button class="btn-cut-strap" id="btnCutStrap" type="button">
+                ✂️ Lepaskan Beban Pundak
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Memaafkan Masa Lalu</h2>
+              <blockquote class="quote-text">
+                "Memaafkan bukan berarti melupakan, tapi membebaskan hatimu dari
+                beban kebencian yang selama ini kamu pikul sendirian."
+              </blockquote>
+              <p class="game-instruction">
+                Potong tali ransel batu dan rasakan ringannya melangkah tanpa
+                kebencian.
+              </p>
+              <p class="game-status" id="st-16">
+                Beban masih dipikul di pundak
+              </p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-16"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 17: FOKUS MASA DEPAN & KARIER
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="17"
+        data-bg="#201226" data-accent="#9bd1ff"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="blueprint-game-stage">
+              <div class="city-stars-grid" id="starsGrid">
+                <button class="star-point" data-star="1" type="button">
+                  ⭐ Belajar
+                </button>
+                <button class="star-point" data-star="2" type="button">
+                  ⭐ Karya
+                </button>
+                <button class="star-point" data-star="3" type="button">
+                  ⭐ Mandiri
+                </button>
+                <button class="star-point" data-star="4" type="button">
+                  ⭐ Sukses
+                </button>
+              </div>
+              <div class="blueprint-tower" id="blueprintTower">
+                🏢 Gedung Impian Terbangun
+              </div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Fokus pada Masa Depan dan Karier</h2>
+              <blockquote class="quote-text">
+                "Bangunlah mimpimu setinggi mungkin. Sebab ketika kamu sukses
+                dan mandiri, cinta yang tepat akan datang dengan cara yang
+                terhormat."
+              </blockquote>
+              <p class="game-instruction">
+                Hubungkan 4 pilar bintang masa depan untuk membangun fondasi
+                impianmu.
+              </p>
+              <p class="game-status" id="st-17">Pilar terbangun: 0 / 4</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-17"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 18: DOA SEPERTIGA MALAM
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="18"
+        data-bg="#1b0e1f" data-accent="#ff6b9d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="night-sky-stage" id="nightSkyStage">
+              <div class="crescent-moon">🌙</div>
+              <div class="prayer-stars-field" id="prayerStars">
+                <span class="click-sky-hint"
+                  >Ketuk langit malam untuk mengirim doa 🌟</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Doa yang Diam-Diam Dipanjatkan</h2>
+              <blockquote class="quote-text">
+                "Ada rindu yang tidak sempat tersampaikan lewat kata-kata, tapi
+                selalu dijaga rapi dalam setiap doa di sepertiga malam."
+              </blockquote>
+              <p class="game-instruction">
+                Ketuk langit malam sebanyak 3 kali untuk menerbangkan bintang
+                doa ke angkasa.
+              </p>
+              <p class="game-status" id="st-18">Doa terpanjat: 0 / 3</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-18"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 19: SESEORANG YANG LAYAK DIPERJUANGKAN
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="19"
+        data-bg="#221224" data-accent="#ff8fab"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="teapot-pair-stage">
+              <div class="pot-cup-unit">
+                <div class="tea-level" id="teaLevelA">0%</div>
+                <p>Pengorbananmu</p>
+              </div>
+              <button class="btn-pour-tea" id="btnPourTea" type="button">
+                🫖 Tuang Teh Bersama
+              </button>
+              <div class="pot-cup-unit">
+                <div class="tea-level" id="teaLevelB">0%</div>
+                <p>Penghargaannya</p>
+              </div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Seseorang yang Layak Diperjuangkan</h2>
+              <blockquote class="quote-text">
+                "Jangan berikan seluruh cintamu pada orang yang
+                setengah-setengah menghargaimu. Simpan untuk seseorang yang
+                memperjuangkanmu tanpa ragu."
+              </blockquote>
+              <p class="game-instruction">
+                Ketuk tombol tuang hingga kedua cangkir terisi seimbang 100%.
+              </p>
+              <p class="game-status" id="st-19">Keseimbangan: 0%</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-19"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 20: KESABARAN MENUNGGU TAKDIR
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="20"
+        data-bg="#1c0f20" data-accent="#ff9ec4"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="seed-grow-stage">
+              <div
+                class="cloud-rain-btn"
+                id="cloudRain"
+                role="button"
+                tabindex="0"
+              >
+                <span>🌧️ Awan Sejuk</span>
+                <small>Ketuk untuk menyiram</small>
+              </div>
+              <div class="plant-visual" id="plantVisual">🌱 Benih di Tanah</div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Kesabaran dalam Menunggu Takdir</h2>
+              <blockquote class="quote-text">
+                "Sabar itu memang berat, tapi hasil dari kesabaran menanti
+                takdir terbaik jauh lebih indah dari apa yang pernah kamu
+                bayangkan."
+              </blockquote>
+              <p class="game-instruction">
+                Ketuk awan hujan 3 kali untuk menyiram benih hingga berbuah
+                mekar.
+              </p>
+              <p class="game-status" id="st-20">Siraman air: 0 / 3</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-20"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 21: MENCINTAI TERLALU BERLEBIHAN (BAB 5)
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="21"
+        data-bg="#251325" data-accent="#e8998d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="heart-puzzle-stage">
+              <div class="chest-hollow" id="chestHollow">
+                <div class="heart-slot" id="heartSlot">
+                  <span class="slot-text">Lubang Hati Kosong</span>
+                </div>
+              </div>
+              <button class="puzzle-piece-btn" id="puzzlePiece" type="button">
+                🧩 Pasang Kembali Hatimu
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Mencintai Terlalu Berlebihan</h2>
+              <blockquote class="quote-text">
+                "Jangan mencintai seseorang melebihi cintamu pada dirimu
+                sendiri. Sebab saat dia pergi, kamu tidak akan kehilangan
+                segalanya, termasuk dirimu."
+              </blockquote>
+              <p class="game-instruction">
+                Pasang kembali kepingan hatimu agar dirimu kembali utuh dan
+                bercahaya.
+              </p>
+              <p class="game-status" id="st-21">Hati masih terluka</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-21"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 22: SESEORANG YANG HANYA SINGGAH
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="22"
+        data-bg="#1e0f22" data-accent="#ff6b9d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="train-station-stage">
+              <div class="train-locomotive" id="trainCar">
+                🚂 Kereta Melaju Melintas...
+              </div>
+              <button class="btn-wave-bye" id="btnWaveBye" type="button">
+                👋 Lambaikan Tangan Ikhlas
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Seseorang yang Hanya Singgah</h2>
+              <blockquote class="quote-text">
+                "Tidak semua orang yang datang ke hidupmu ditakdirkan untuk
+                menetap. Beberapa hanya datang sebagai pelajaran, lalu pergi
+                meninggalkan kenangan."
+              </blockquote>
+              <p class="game-instruction">
+                Lambaikan tanganmu untuk melepas kepergian kereta dengan
+                senyuman damai.
+              </p>
+              <p class="game-status" id="st-22">Kereta berhenti sejenak</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-22"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 23: EKSPEKTASI YANG MENYAKITKAN
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="23"
+        data-bg="#211026" data-accent="#c5a3ff"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="glass-collapse-stage">
+              <div class="tower-glass" id="towerGlass">
+                🏰 Menara Harapan yang Rapuh
+              </div>
+              <button
+                class="btn-shatter-tower"
+                id="btnShatterTower"
+                type="button"
+              >
+                🔨 Sadari &amp; Turunkan Ekspektasi
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Ekspektasi yang Menyakitkan</h2>
+              <blockquote class="quote-text">
+                "Bukan dia yang terlalu jahat padamu, tapi ekspektasimu sendiri
+                yang terlalu tinggi menaruh harap pada manusia."
+              </blockquote>
+              <p class="game-instruction">
+                Runtuhkan menara kaca ekspektasi berlebih dan berpijaklah di
+                atas tanah kenyataan.
+              </p>
+              <p class="game-status" id="st-23">
+                Menara kaca masih berdiri goyah
+              </p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-23"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 24: BERPURA-PURA KUAT
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="24"
+        data-bg="#1a0e1e" data-accent="#ff8fab"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="mask-drop-stage">
+              <div class="face-base-card" id="faceBase">
+                <div class="fake-mask-cover" id="fakeMaskCover">
+                  🎭 Topeng Senyum Palsu
+                </div>
+                <div class="true-face-content">
+                  🥺 Wajah yang Jujur pada Perasaannya
+                </div>
+              </div>
+              <button class="btn-drop-mask" id="btnDropMask" type="button">
+                🍃 Buka Topeng Senyummu
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Berpura-pura Kuat di Depan Orang Lain</h2>
+              <blockquote class="quote-text">
+                "Menangis bukan tanda kamu lemah. Terkadang, air mata adalah
+                cara paling jujur saat kata-kata tak lagi mampu menjelaskan rasa
+                sakit."
+              </blockquote>
+              <p class="game-instruction">
+                Buka topeng senyum palsumu. Kamu berhak merasa lelah dan
+                menangis sejenak.
+              </p>
+              <p class="game-status" id="st-24">Topeng masih menutupi wajah</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-24"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 25: BERKATA CUKUP
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="25"
+        data-bg="#1f1024" data-accent="#ff9ec4"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="thorn-release-stage">
+              <div class="thorn-branch" id="thornBranch">
+                🥀 Ranting Mawar Berduri Menggores
+              </div>
+              <button class="btn-open-palm" id="btnOpenPalm" type="button">
+                ✋ Buka Genggaman &amp; Katakan "Cukup"
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Keberanian untuk Berkata "Cukup"</h2>
+              <blockquote class="quote-text">
+                "Berani melepaskan sesuatu yang menyakitkan adalah bentuk kasih
+                sayang tertinggi yang bisa kamu berikan untuk hatimu sendiri."
+              </blockquote>
+              <p class="game-instruction">
+                Buka genggaman tanganmu dan biarkan luka disembuhkan oleh
+                kedamaian.
+              </p>
+              <p class="game-status" id="st-25">
+                Tangan masih menggenggam erat duri
+              </p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-25"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 26: CINTA YANG SEHAT (BAB 6)
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="26"
+        data-bg="#1c0e20" data-accent="#ff6b9d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="twin-trees-stage">
+              <div class="tree-unit">🌲 Pohon Dirimu</div>
+              <button class="btn-sun-shine" id="btnSunShine" type="button">
+                ☀️ Beri Cahaya Matahari
+              </button>
+              <div class="tree-unit">🌲 Pohon Dirinya</div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Cinta yang Sehat</h2>
+              <blockquote class="quote-text">
+                "Cinta yang dewasa tidak akan membuatmu merasa tertekan, apalagi
+                kehilangan jati diri. Ia justru membuatmu bertumbuh menjadi
+                versi terbaikmu."
+              </blockquote>
+              <p class="game-instruction">
+                Beri cahaya mentari agar kedua pohon bertumbuh saling
+                menghormati ruang masing-masing.
+              </p>
+              <p class="game-status" id="st-26">
+                Dua pohon menunggu mentari pagi
+              </p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-26"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 27: MEMBANDINGKAN KISAH CINTA
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="27"
+        data-bg="#231325" data-accent="#e8998d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="season-clock-stage">
+              <div class="flower-clock-display" id="clockDisplay">
+                <span class="clock-season-icon" id="seasonIcon">🌸</span>
+                <p class="season-flower-label" id="flowerLabel">
+                  Bunga Musim Semi Mekar
+                </p>
+              </div>
+              <button class="btn-turn-season" id="btnTurnSeason" type="button">
+                🔄 Putar Musim Kehidupan
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Membandingkan Kisah Cinta</h2>
+              <blockquote class="quote-text">
+                "Setiap orang punya zona waktunya masing-masing. Tidak perlu
+                terburu-buru hanya karena melihat teman-temanmu sudah lebih dulu
+                menemukan pasangannya."
+              </blockquote>
+              <p class="game-instruction">
+                Putar musim kehidupan untuk melihat bahwa setiap bunga punya
+                waktu mekar terbaiknya.
+              </p>
+              <p class="game-status" id="st-27">Musim terlewati: 0 / 3</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-27"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 28: PERHATIAN KECIL MENJEBAK
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="28"
+        data-bg="#1d0f20" data-accent="#ff7eb6"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="umbrella-game-stage">
+              <div class="umbrella-visual" id="umbrellaVisual">
+                ☂️ Payung Kuning Ramah
+              </div>
+              <button
+                class="btn-fold-umbrella"
+                id="btnFoldUmbrella"
+                type="button"
+              >
+                🌂 Lipat Payung &amp; Lanjutkan Jalanmu
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Perhatian Kecil yang Menjebak</h2>
+              <blockquote class="quote-text">
+                "Jangan salah artikan perhatian kecil sebagai tanda cinta. Bagi
+                sebagian orang, bersikap ramah memang sudah menjadi kebiasaan
+                tanpa maksud apa-apa."
+              </blockquote>
+              <p class="game-instruction">
+                Lipat payung kebaikan itu dengan senyuman dan teruslah melangkah
+                mandiri.
+              </p>
+              <p class="game-status" id="st-28">
+                Payung masih terbuka di bawah hujan
+              </p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-28"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 29: KETAKUTAN MEMULAI LAGI
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="29"
+        data-bg="#201226" data-accent="#ff8fab"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="rusty-gate-stage">
+              <div class="rusty-lock" id="rustyLock">
+                🔒 Gembok Besi Tua Berkarat
+              </div>
+              <button
+                class="btn-insert-silver-key"
+                id="btnSilverKey"
+                type="button"
+              >
+                🗝️ Masukkan Kunci Keberanian
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Ketakutan untuk Memulai Lagi</h2>
+              <blockquote class="quote-text">
+                "Trauma masa lalu memang membuatmu lebih berhati-hati, tapi
+                jangan biarkan ia menutup pintu bagi seseorang yang benar-benar
+                tulus datang."
+              </blockquote>
+              <p class="game-instruction">
+                Masukkan kunci perak keberanian untuk membuka kembali gerbang
+                hati.
+              </p>
+              <p class="game-status" id="st-29">Gerbang masih terkunci rapat</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-29"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 30: KESETIAAN PADA DIRI SENDIRI
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="30"
+        data-bg="#1b0e1f" data-accent="#ff9ec4"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="beach-hug-stage">
+              <div class="footsteps-sand" id="footstepsSand">
+                <span class="footstep-dot" data-step="1">👣</span>
+                <span class="footstep-dot" data-step="2">👣</span>
+                <span class="footstep-dot" data-step="3">👣</span>
+              </div>
+              <div class="self-hug-icon hidden" id="selfHugIcon">
+                🫂 Peluk Dirimu Sendiri
+              </div>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Kesetiaan pada Diri Sendiri</h2>
+              <blockquote class="quote-text">
+                "Pada akhirnya, orang yang paling setia menemanimu dari awal
+                hingga akhir hidup adalah dirimu sendiri. Jadi, perlakukan
+                dirimu dengan baik."
+              </blockquote>
+              <p class="game-instruction">
+                Ketuk ketiga jejak kaki di pasir pantai senja hingga kamu
+                memeluk dirimu sendiri.
+              </p>
+              <p class="game-status" id="st-30">Jejak terinjak: 0 / 3</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-30"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 31: ALASAN TUHAN MENJAUHKAN (BAB 7)
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="31"
+        data-bg="#221224" data-accent="#ff6b9d"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="divine-shield-stage">
+              <div class="chasm-danger">⚠️ Jurang Bahaya Tersembunyi</div>
+              <button
+                class="btn-activate-shield"
+                id="btnActivateShield"
+                type="button"
+              >
+                🛡️ Aktifkan Perisai Pelindung Tuhan
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Alasan Tuhan Menjauhkan Seseorang</h2>
+              <blockquote class="quote-text">
+                "Jika Tuhan menjauhkan dia darimu, itu bukan karena Tuhan tidak
+                sayang. Justru karena Tuhan mendengar percakapan di belakangmu
+                yang tidak pernah kamu dengar."
+              </blockquote>
+              <p class="game-instruction">
+                Aktifkan perisai pelindung emas untuk menyadari hikmah
+                perlindungan semesta.
+              </p>
+              <p class="game-status" id="st-31">Langkahmu belum terlindungi</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-31"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 32: DEWASA MENYIKAPI RINDU
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="32"
+        data-bg="#1c0f22" data-accent="#c5a3ff"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="lantern-sky-stage">
+              <div
+                class="sky-lantern"
+                id="skyLantern"
+                role="button"
+                tabindex="0"
+              >
+                <span class="lantern-body">🏮</span>
+                <p class="lantern-tag">Lampion Doa Kebahagiaannya</p>
+              </div>
+              <button
+                class="btn-release-lantern"
+                id="btnReleaseLantern"
+                type="button"
+              >
+                ✨ Terbangkan Lampion ke Bintang
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Menjadi Dewasa dalam Menyikapi Rindu</h2>
+              <blockquote class="quote-text">
+                "Rindu yang paling dewasa adalah ketika kamu tidak lagi
+                memaksanya untuk kembali, melainkan cukup mendoakan
+                kebahagiaannya dari kejauhan."
+              </blockquote>
+              <p class="game-instruction">
+                Terbangkan lampion doa ke langit malam dengan ketulusan hati.
+              </p>
+              <p class="game-status" id="st-32">Lampion masih di tangan</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-32"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 33: LELAH MENGEJAR
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="33"
+        data-bg="#241125" data-accent="#ff8fab"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="rest-bench-stage">
+              <div class="runner-state" id="runnerState">
+                🏃‍♂️ Sedang Berlari Kelelahan
+              </div>
+              <button class="btn-sit-bench" id="btnSitBench" type="button">
+                🪑 Berhenti &amp; Duduk di Bangku Danau
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Lelahnya Mengejar yang Menjauh</h2>
+              <blockquote class="quote-text">
+                "Kamu tidak perlu berlari mengejar seseorang yang sengaja
+                mempercepat langkahnya agar tidak terkejar olehmu."
+              </blockquote>
+              <p class="game-instruction">
+                Ketuk tombol untuk berhenti berlari dan nikmati hembusan angin
+                di tepi danau.
+              </p>
+              <p class="game-status" id="st-33">
+                Karakter masih terengah-engah
+              </p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-33"
+                type="button"
+              >
+                Lanjut ke Lembaran Berikutnya →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 34: KEBAHAGIAAN SEDERHANA
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="34"
+        data-bg="#1e1022" data-accent="#ff9ec4"
+      >
+        <div class="scene-layout">
+          <div class="visual-stage">
+            <div class="cat-room-stage">
+              <div
+                class="sleeping-cat"
+                id="sleepingCat"
+                role="button"
+                tabindex="0"
+              >
+                <span class="cat-icon" id="catIcon">🐱</span>
+                <p class="cat-purr" id="catPurr">zzZ...</p>
+              </div>
+              <button class="btn-pet-cat" id="btnPetCat" type="button">
+                🐾 Elus Kucing Hangat (0/3)
+              </button>
+            </div>
+          </div>
+          <div class="text-stage">
+            <div class="scene-card">
+              <h2 class="scene-title">Kebahagiaan yang Sederhana</h2>
+              <blockquote class="quote-text">
+                "Terkadang, yang kamu butuhkan bukanlah pasangan baru, melainkan
+                istirahat sejenak dari riuhnya perasaan dan berdamai dengan
+                kesendirian."
+              </blockquote>
+              <p class="game-instruction">
+                Elus kucing yang tertidur di sampingmu sebanyak 3 kali untuk
+                merasakan kedamaian.
+              </p>
+              <p class="game-status" id="st-34">Elusan: 0 / 3</p>
+              <button
+                class="btn-step-next hidden"
+                id="btn-next-34"
+                type="button"
+              >
+                Lanjut ke Lembaran Penutup →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+         SCENE 35: GRAND FINALE — SURAT CINTA BUCIN
+         ══════════════════════════════════════════════════════ -->
+      <section
+        class="scene"
+        data-scene="35"
+        data-bg="#1a0b1e" data-accent="#ff6b9d"
+      >
+        <canvas class="bucin-heart-rain" id="heartRainCanvas"></canvas>
+        <div class="bucin-aurora" aria-hidden="true"></div>
+
+        <div class="scene-layout bucin-layout">
+          <div class="visual-stage bucin-visual-stage">
+            <div class="bucin-letter-wrap" id="bucinLetterWrap">
+              <div class="bucin-envelope" id="bucinEnvelope">
+                <div class="bucin-envelope-flap"></div>
+                <div class="bucin-heart-seal" id="bucinHeartSeal" title="Ketuk segel hati">
+                  <span>💌</span>
+                </div>
+              </div>
+              <div class="bucin-letter" id="bucinLetter" aria-hidden="true">
+                <div class="bucin-letter-paper">
+                  <span class="bucin-letter-stamp">💗</span>
+                  <h3 class="bucin-letter-title">Untuk Kamu,</h3>
+                  <p class="bucin-letter-line">
+                    "Terima kasih sudah pernah hadir, meski kita tak pernah
+                    benar-benar jatuh cinta."
+                  </p>
+                  <p class="bucin-letter-sign">— Dengan hangat, Alvi</p>
+                </div>
+              </div>
+              <p class="bucin-hint">💌 Ketuk amplop untuk membuka surat cinta</p>
+            </div>
+          </div>
+
+          <div class="text-stage bucin-text-stage">
+            <div class="scene-card bucin-card">
+              <span class="intro-pill">✨ Pesan Penutup &amp; Refleksi</span>
+              <h2 class="scene-title">Puncak Kebijaksanaan Diri</h2>
+              <blockquote class="quote-text bucin-quote">
+                "Jika kita tak pernah jatuh cinta dan patah hati, mungkin kita
+                tak akan pernah tahu seberapa kuat diri kita mampu bangkit, dan
+                seberapa besar cinta Tuhan menjaga hati kita."
+              </blockquote>
+              <p class="author-signature">— Alvi Syahrin</p>
+
+              <div class="bucin-badge-row" id="bucinBadgeRow">
+                <button class="bucin-badge" type="button" data-tone="523">
+                  💖 Cinta
+                </button>
+                <button class="bucin-badge" type="button" data-tone="659">
+                  🌙 Rindu
+                </button>
+                <button class="bucin-badge" type="button" data-tone="784">
+                  ✨ Harap
+                </button>
+                <button class="bucin-badge" type="button" data-tone="880">
+                  🌸 Damai
+                </button>
+              </div>
+
+              <button class="btn-restart bucin-restart" id="btnRestart" type="button">
+                ↺ Baca Ulang dari Lembaran Pertama
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
